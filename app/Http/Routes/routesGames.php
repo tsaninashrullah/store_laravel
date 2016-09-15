@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource('/games', 'GamesController');
+Route::post('games.store', 'GamesController@store');
