@@ -6,7 +6,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="javascript:void(0)">Training Bootstrap</a>
+      <a class="navbar-brand" href="javascript:void(0)">Mahkota Store</a>
     </div>
     <div class="navbar-collapse collapse navbar-warning-collapse">
       <ul class="nav navbar-nav navbar-right">

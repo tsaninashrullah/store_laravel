@@ -18,7 +18,7 @@
 	@include("shared.header")
 
 	<!-- ALERT -->
-	@if (Session::has('error'))
+<!-- 	@if (Session::has('error'))
 	    <div class="session-flash danger">
 	        <h3 align="center">{{Session::get('error')}}</h3>
 	    </div>
@@ -28,16 +28,16 @@
 	    <div class="session-flash success">
 	        <h3 align="center">{{Session::get('notice')}}</h3>
 	    </div>
-	@endif
+	@endif -->
 
 	<!-- Content HERE!!!! -->
 	<div class="container">
-		@yield("content")
+		@yield('content')
 	</div>
 
 
 	<!-- Footer HERE!!!! -->
-	@include("shared.footer")
+	<!-- @include("shared.footer") -->
 
 	</body>
 
