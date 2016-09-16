@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Models\Games;
 
 use Session;
+use File;
 
 use App\Http\Requests\GamesRequest;
 
@@ -49,7 +50,22 @@ class GamesController extends Controller
         $game->author = $request->author;
         $game->email = $request->email;
         $game->description = $request->description;
-                
+        $uploadDestinationPath = "upload-image/";
+        $filename = $request->title . ".jpg";
+        // make sure each file is valid
+        if ($request->file('image')->isValid()) {
+            $request->file('image')->move($uploadDestinationPath, $filename);
+        }else{
+            echo "<script>alert('Failed');</script>";
+            die();
+            return back();
+        }
+        // $file       = $request->file('image');
+        // $fileName   = $request->title . "-" . $request->email . ".jpg";
+        // $request->file('image')->move("upload-image/", $fileName);
+
+        $game->image = $filename;
+
         $game->save();
         Session::flash('notice', 'Success add game');
         $games = Games::all();
@@ -64,7 +80,9 @@ class GamesController extends Controller
      */
     public function show($id)
     {
-        //
+        $game = Games::find($id);
+            return view('games.show')
+        ->with('game', $game);
     }
 
     /**
@@ -75,7 +93,9 @@ class GamesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $games = Games::find($id);
+            return view('games.edit')
+        ->with('game', $games);
     }
 
     /**
@@ -85,9 +105,23 @@ class GamesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(GamesRequest $request, $id)
     {
-        //
+        $games = Games::find($id);
+        $new_file_name = $request->title . ".jpg";
+        $uploadDestinationPath = "upload-image/";
+        $deletefile = File::delete('upload-image/'.$request->image);
+        if ($request->file('image')->isValid()) {
+            $request->file('image')->move($uploadDestinationPath, $new_file_name);
+        }else{
+            echo "<script>alert('Failed');</script>";
+            die();
+            return back();
+        }
+        // $request->file('image')->move($uploadDestinationPath, $new_file_name);
+        $games->update($request->all());
+        Session::flash('notice', 'Success update game');
+        return Redirect('games');       
     }
 
     /**
@@ -98,6 +132,15 @@ class GamesController extends Controller
      */
     public function destroy($id)
     {
-        //
+    $games = Games::all();
+    $game_id = Games::find($id);
+    File::delete('upload-image/'.$game_id->image);
+        if ($game_id->delete()) {
+          Session::flash('notice', 'Game success delete');
+          return Redirect('games')->with('games', $games);
+        } else {
+          Session::flash('error', 'Game fails delete');
+          return Redirect('games');
+        }
     }
 }

@@ -28,6 +28,13 @@ class GamesRequest extends Request
             'author' => 'required|max:100',
             'email' => 'required|max:100',
             'description' => 'required',
+            'image' => 'required',
+        ];
+    }
+    public function messages() {
+        return [
+            'image.required' => 'Please add cover!',
+            // 'email.unique' => 'Email already taken!',
         ];
     }
 }
