@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class GamesRequest.php extends Request
+class GamesRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,10 @@ class GamesRequest.php extends Request
     public function rules()
     {
         return [
-            'title' => 'required|max:100'
-            'author' => 'required|max:100'
-            'email' => 'required|max:100'
-            'description' => 'required'
+            'title' => 'required|max:100',
+            'author' => 'required|max:100',
+            'email' => 'required|max:100',
+            'description' => 'required',
         ];
     }
 }

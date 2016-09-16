@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Models\Games;
+
+use Session;
+
+use App\Http\Requests\GamesRequest;
+
 class GamesController extends Controller
 {
     /**
@@ -15,7 +21,8 @@ class GamesController extends Controller
      */
     public function index()
     {
-        //
+        $games = Games::all();
+        return view('games.index')->with('games', $games);
     }
 
     /**
@@ -25,7 +32,7 @@ class GamesController extends Controller
      */
     public function create()
     {
-        //
+        return view('games.create');
     }
 
     /**
@@ -34,9 +41,19 @@ class GamesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GamesRequest $request)
     {
-        //
+        $game = new Games();
+                
+        $game->title = $request->title;
+        $game->author = $request->author;
+        $game->email = $request->email;
+        $game->description = $request->description;
+                
+        $game->save();
+        Session::flash('notice', 'Success add game');
+        $games = Games::all();
+        return redirect('games')->with('games', $games);
     }
 
     /**

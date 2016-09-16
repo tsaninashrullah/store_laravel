@@ -7,18 +7,18 @@
 	</div>
 </div>
 
-<div class="row">
+<div class="container-fluid">
 	<div class="col lg-12">
 		<div class="table-responsive">
 		@if(count($games) == 0)
 			<br>
 			<br>
-			<h4 align="center">Sorry, data not yet available, You can {{ link_to('games/create', 'Create', array('class' => 'btn btn-default')) }} the data</h4>
+			<h4 align="center">Sorry data not yet available, You can {{ link_to('games/create', 'Create', array('class' => 'btn btn-raised btn-primary')) }} the data</h4>
 		@else
-		{{ link_to('games/create', 'Create', array('class' => 'btn btn-default')) }} 
+		{{ link_to('games/create', 'mode_edit', array('class' => 'btn-floating green materialize-icon small')) }} 
 		<br>
 		<br>
-		<table class="highlight responsive-table bordered">
+		<table class="table table-hover">
 			<tr>
 				<th>Title</th>
 				<th>Author</th>
@@ -45,6 +45,7 @@
 					</td>
 				</tr>
 			@endforeach
+		@endif
 		</table>
 		</div>
 	</div>

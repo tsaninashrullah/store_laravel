@@ -8,5 +8,5 @@ class Games extends Model
 {
     protected $fillable = [
     	'title','author','email','description'
-    ]
+    ];
 }
