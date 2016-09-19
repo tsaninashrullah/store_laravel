@@ -14,3 +14,12 @@
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
+// $api = app('Dingo\Api\Routing\Router');
+
+// $api->version('v1', function ($api) {
+//     $api->get('games', 'App\Http\Controllers\GamesController@index');
+// });

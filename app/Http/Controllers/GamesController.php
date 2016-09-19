@@ -26,6 +26,13 @@ class GamesController extends Controller
         return view('games.index')->with('games', $games);
     }
 
+    public function indexApi()
+    {
+        $games = Games::all();
+        // return view('games.index')->with('games', $games);
+        return $games;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
