@@ -20,6 +20,12 @@ class GamesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $games = Games::all();
@@ -149,5 +155,9 @@ class GamesController extends Controller
           Session::flash('error', 'Game fails delete');
           return Redirect('games');
         }
+    }
+
+    public function home(){
+        return view('home');
     }
 }

@@ -11,13 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', 'BaseController@list_games');
+Route::get('home', 'GamesController@home');
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+Route::get('login', 'AuthController@login')->name('login');
+Route::post('auth', 'AuthController@auth');
+Route::get('signup', 'AuthController@signup')->name('signup.register');
+Route::post('register', 'AuthController@register')->name('register');
+Route::get('logout', 'AuthController@logout');
 // $api = app('Dingo\Api\Routing\Router');
 
 // $api->version('v1', function ($api) {

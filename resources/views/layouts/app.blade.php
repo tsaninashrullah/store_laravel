@@ -1,3 +1,6 @@
+<?php
+use Cartalyst\Sentinel\Users\UserInterface;
+?>
 <!DOCTYPE html>
 <html>
 <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">      

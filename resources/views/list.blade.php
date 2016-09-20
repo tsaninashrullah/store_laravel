@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 align="center">Has Login</h1>
+            <h1 align="center">Awal</h1>
         </div>
     </div>
 </div>

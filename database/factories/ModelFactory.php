@@ -10,6 +10,7 @@
 | database. Just tell the factory how a default model should look.
 |
 */
+use App\Http\Models\Games;
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
@@ -17,5 +18,15 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->safeEmail,
         'password' => bcrypt(str_random(10)),
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->define(Games::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->company,
+        'author' => $faker->name($gender = null|'male'|'female') ,
+        'email' => $faker->safeEmail,
+        'description' => $faker->paragraph($nbSentences = 3, $variableNbSentences = true),
+        'image' => $faker->mage($dir, $width, $height, 'cats', false),
     ];
 });

@@ -13,9 +13,5 @@
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', function ($api) {
-    $api->get('games', 'App\Http\Controllers\GamesController@indexApi');
-});
-
-$api->version('v1', function ($api) {
-    $api->post('games/create', 'App\Http\Controllers\GamesController@create');
+    $api->resource('games', 'App\Http\Controllers\GameController');
 });

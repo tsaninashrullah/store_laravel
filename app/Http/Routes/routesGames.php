@@ -15,11 +15,3 @@ Route::resource('/games', 'GamesController');
 Route::post('games.store', 'GamesController@store');
 
 $api = app('Dingo\Api\Routing\Router');
-
-$api->version('v1', function ($api) {
-    $api->get('games', 'App\Http\Controllers\GamesController@indexApi');
-});
-
-$api->version('v1', function ($api) {
-    $api->post('games/create', 'App\Http\Controllers\GamesController@create');
-});
