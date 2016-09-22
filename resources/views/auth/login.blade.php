@@ -21,6 +21,7 @@
 			</div>
 		</div>
 	</div>
+	<input type="hidden" name="_token" value="{{csrf_token()}}">
 	<div class="row">
 		<div class="col-lg-8 col-lg-offset-2">
 			<div class="form-group label-floating">

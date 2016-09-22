@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\Models\User;
+use App\Models\Users;
 
 use App\Http\Requests\UsersRequest;
 
@@ -22,7 +22,7 @@ use Activation;
 
 use Session;
 
-class AuthController extends Controller
+class CekController extends Controller
 {
     public function signup(){
     	return view('auth.signup');
@@ -34,7 +34,7 @@ class AuthController extends Controller
 		    'last_name' => $request->last_name,
 		    'email'    => $request->email,
 		    'password' => $request->password,
-		    'username' => 'thats',
+		    'username' => $request->username,
 		];
 
 		Sentinel::registerAndActivate($credentials);
@@ -68,8 +68,7 @@ class AuthController extends Controller
     }
 
     public function logout(){
-    	$user = Sentinel::getUser();
-    	Sentinel::logout($user);
+    	Sentinel::logout();
 		return redirect('login');
     }
 }

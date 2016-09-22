@@ -10,8 +10,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::group(['middleware' => 'admin'], function(){
+	Route::resource('/games', 'GamesController');
+	Route::post('games.store', 'GamesController@store');
+});
 
-Route::resource('/games', 'GamesController');
-Route::post('games.store', 'GamesController@store');
-
-$api = app('Dingo\Api\Routing\Router');

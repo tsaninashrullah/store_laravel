@@ -33,7 +33,7 @@
 					<td>{{ $game->author }}</td>
 					<td>{{ $game->email }}</td>
 					<!-- <td>{{ $game->description }}</td> -->
-					<td><img src="{{ asset('upload-image/' . $game->image)  }}" style="max-height:200px;max-width:200px;margin-top:10px;"></td>
+					<td align="center"><img src="{{ asset('uploads/images/' . $game->id . '/' . $game->image) }}" style="max-height:200px;max-width:200px;margin-top:10px;"></td>
 					<td width="10%">
 					<i class="btn btn-success btn-fab-mini">
 						{{ link_to('games/'.$game->id, 'visibility', array('class' => 'material-icons')) }}
@@ -56,6 +56,7 @@
 		@endif
 		</table>
 		</div>
+		<!-- <img src="uploads/images/1/1.jpg" width="40%"> -->
 	</div>
 </div>
 @stop

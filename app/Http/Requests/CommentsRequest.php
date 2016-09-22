@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class UsersRequest extends Request
+class CommentsRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,7 @@ class UsersRequest extends Request
     public function rules()
     {
         return [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'username' => 'required|unique:users',
-            'email' => 'required|unique:users|email',
-            'password' => 'required|min:7',
+            'comments' => 'required',
         ];
     }
 }

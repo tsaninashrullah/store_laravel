@@ -10,10 +10,30 @@
 <div class="col-lg-8 col-lg-offset-2">
 <div class="row">
 	<div class="col-lg-8 col-lg-offset-2">
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="form-group label-floating">
+			{{ Form::Label('first_name','First Name', array('class' => 'control-label')) }}
+			{{ Form::text('first_name', $value = null, $attributes = array('required', 'class' => 'form-control')) }}
+			{{ $errors->first('first_name') }}
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="form-group label-floating">
+			{{ Form::Label('last_name','Last Name', array('class' => 'control-label')) }}
+			{{ Form::text('last_name', $value = null, $attributes = array('required', 'class' => 'form-control')) }}
+			{{ $errors->first('last_name') }}
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-8 col-lg-offset-2">
 		<div class="form-group label-floating">
-		{{ Form::Label('name','Name User', array('class' => 'control-label')) }}
-		{{ Form::text('name', $value = null, $attributes = array('required', 'class' => 'form-control')) }}
-		{{ $errors->first('name') }}
+		{{ Form::Label('username','Username', array('class' => 'control-label')) }}
+		{{ Form::text('username', $value = null, $attributes = array('required', 'class' => 'form-control')) }}
+		{{ $errors->first('username') }}
 		</div>
 	</div>
 </div>

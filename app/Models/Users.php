@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use Cartalyst\Sentinel\Users\EloquentUser as CartalystUser;
+use Cartalyst\Sentinel\Users\UserInterface;
+
+use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
+use App\Models\Games;
 
 // use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends CartalystUser
+class Users extends SentinelUser
 {
     /**
      * The attributes that are mass assignable.
@@ -20,6 +23,7 @@ class User extends CartalystUser
         'first_name',
         'last_name',
         'permissions',
+        'username',
     ];
 
     /**
@@ -30,4 +34,7 @@ class User extends CartalystUser
     protected $hidden = [
         'password', 'remember_token',
     ];
+    public function games() {
+      return $this->belongsToMany('App\Models\Games', 'comments');
+    }
 }

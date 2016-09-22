@@ -8,7 +8,11 @@ use App\Http\Requests;
 
 use App\Models\Games;
 
-use Session;
+use Cartalyst\Sentinel\Users\UserInterface;
+
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+
+use Session, Image;
 use File;
 
 use App\Http\Requests\GamesRequest;
@@ -21,22 +25,11 @@ class GamesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     
     public function index()
     {
         $games = Games::all();
         return view('games.index')->with('games', $games);
-    }
-
-    public function indexApi()
-    {
-        $games = Games::all();
-        // return view('games.index')->with('games', $games);
-        return $games;
     }
 
     /**
@@ -57,28 +50,24 @@ class GamesController extends Controller
      */
     public function store(GamesRequest $request)
     {
+
         $game = new Games();
                 
         $game->title = $request->title;
         $game->author = $request->author;
         $game->email = $request->email;
         $game->description = $request->description;
-        $uploadDestinationPath = "upload-image/";
-        $filename = $request->title . ".jpg";
-        // make sure each file is valid
-        if ($request->file('image')->isValid()) {
-            $request->file('image')->move($uploadDestinationPath, $filename);
-        }else{
-            echo "<script>alert('Failed');</script>";
-            die();
-            return back();
-        }
-        // $file       = $request->file('image');
-        // $fileName   = $request->title . "-" . $request->email . ".jpg";
-        // $request->file('image')->move("upload-image/", $fileName);
+        $game->save();
 
-        $game->image = $filename;
-
+        $file = $request->file('image');
+        $image = Image::make($file);
+        $image_location = public_path().'/uploads/images/' . $game->id . '/';
+        $direction  = File::makeDirectory($image_location,0777, true, true);
+        // $final = $direction . "/";
+        $image->save($image_location . $game->id . '.jpg');
+        $image->resize(200,100);
+        $image->save($image_location . 'thumb'. $game->id . '.jpg');
+        $game->image =  'uploads/images/' . $game->id . '/' . $game->id . '.jpg';
         $game->save();
         Session::flash('notice', 'Success add game');
         $games = Games::all();

@@ -31,6 +31,9 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
         ],
 
+        'sentinel' => [
+        ],
+
         'api' => [
             'throttle:60,1',
         ],
@@ -44,7 +47,10 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth' => \App\Http\Middleware\SentinelAuth::class,
+        'admin' => \App\Http\Middleware\SentinelAdmin::class,
+        'back' => \App\Http\Middleware\SentinelGuest::class,
+        // 'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'can' => \Illuminate\Foundation\Http\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,

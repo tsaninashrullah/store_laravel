@@ -18,7 +18,6 @@
  * @link       http://cartalyst.com
  */
 
-use App\Models\Users;
 
 return [
 
