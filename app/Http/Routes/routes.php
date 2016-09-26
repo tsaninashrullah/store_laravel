@@ -10,9 +10,19 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::group(['middleware' => 'admin'], function () {
+	Route::get('users', 'UsersController@index')->name('users');
+	Route::post('users/{id}', 'UsersController@destroy')->name('users.destroy');
+	Route::post('users/{id}/active', 'UsersController@active')->name('users.active');
+	Route::post('users/{id}/deactive', 'UsersController@deactive')->name('users.deactive');
+	Route::post('user/{id}', 'UsersController@show')->name('users.show');
+});
+	Route::get('users/create', 'UsersController@create')->name('users.role');
+	Route::post('users', 'UsersController@role')->name('users.roles');
+
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('home', 'GamesController@home');
-	Route::get('comments_user/{id}', 'CommentsController@comments_user');
+	Route::get('comments_user/{id}', 'CommentsController@comments_user')->name('comments');
 	Route::POST('comments/{id}', 'CommentsController@store')->name('comments.store');
 });
 Route::group(['middleware' => 'back'], function () {
@@ -23,7 +33,6 @@ Route::group(['middleware' => 'back'], function () {
 });
 Route::get('logout', 'CekController@logout');
 Route::get('/', 'BaseController@list_games')->name('list');
-
 
 // Route::auth();
 

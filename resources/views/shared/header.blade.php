@@ -12,12 +12,15 @@ $user = Sentinel::findUserById($value);
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="javascript:void(0)">Mahkota Store </a>
+      <a class="navbar-brand" href="javascript:void(0)">TRSNW. </a>
     </div>
     <div class="navbar-collapse collapse navbar-warning-collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>{{ link_to('/', 'Home') }}</li>
+        @if(Sentinel::inRole('admin'))
         <li>{{ link_to('games', 'Game') }}</li>
+        <li>{{ link_to('users', 'User') }}</li>
+        @endif
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Sentinel::getUser()->username }}  <span class="caret"></span>
             </a>

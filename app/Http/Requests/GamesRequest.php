@@ -24,16 +24,16 @@ class GamesRequest extends Request
     public function rules()
     {
         return [
-            'title' => 'required|max:100',
-            'author' => 'required|max:100',
-            'email' => 'required|max:100',
-            'description' => 'required',
-            'image' => 'required',
+            // 'title' => 'required|max:100',
+            // 'author' => 'required|max:100',
+            // 'email' => 'required|max:100',
+            // 'description' => 'required',
+            // 'image' => 'required|image|',
         ];
     }
     public function messages() {
         return [
-            'image.required' => 'Please add cover!',
+            // 'image.required' => 'Please add cover!',
             // 'email.unique' => 'Email already taken!',
         ];
     }

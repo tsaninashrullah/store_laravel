@@ -3,6 +3,7 @@ use Cartalyst\Sentinel\Users\UserInterface;
 ?>
 <!DOCTYPE html>
 <html>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">      
 <link type="text/css" href="/assets/library/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link type="text/css" href="/assets/library/material/css/bootstrap-material-design.css" rel="stylesheet">
@@ -45,27 +46,4 @@ use Cartalyst\Sentinel\Users\UserInterface;
     @include("shared.footer")
 
     </body>
-<script src="//cdnjs.cloudflare.com/ajax/libs/noUiSlider/6.2.0/jquery.nouislider.min.js"></script>
-    <script>
-      $(function () {
-        $.material.init();
-        $(".shor").noUiSlider({
-          start: 40,
-          connect: "lower",
-          range: {
-            min: 0,
-            max: 100
-          }
-        });
-        $(".svert").noUiSlider({
-          orientation: "vertical",
-          start: 40,
-          connect: "lower",
-          range: {
-            min: 0,
-            max: 100
-          }
-        });
-      });
-    </script>
 </html>

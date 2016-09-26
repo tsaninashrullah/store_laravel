@@ -48,7 +48,7 @@ class CekController extends Controller
 
     public function auth(Request $request){
     	$credentials = [
-		    'email'    => $request->email,
+		    'login'    => $request->username,
 		    'password' => $request->password,
 		];
 		// var_dump();

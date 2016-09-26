@@ -26,10 +26,31 @@ class GamesController extends Controller
      */
 
     
-    public function index()
+    public function index(Request $request)
     {
-        $games = Games::all();
-        return view('games.index')->with('games', $games);
+        if($request->ajax()) {
+
+          if($request->keywords) {
+
+            $games = Games::where('title', 'like', '%'.$request->keywords.'%')
+              ->orWhere('author', 'like', '%'.$request->keywords.'%')
+              ->paginate(2);
+              $view = (String) view('games._list')
+                ->with('games', $games)
+                ->render();
+              return response()->json(['view' => $view]);
+            }else{
+            $games = Games::paginate(2);
+            $view = (String)view('games._list')
+            ->with('games', $games)
+            ->render();
+            return response()->json(['view' => $view]);
+            }
+        } else {
+          $games = Games::paginate(2);
+          return view('games.index')
+            ->with('games', $games);
+        }
     }
 
     /**
@@ -67,7 +88,7 @@ class GamesController extends Controller
         $image->save($image_location . $game->id . '.jpg');
         $image->resize(200,100);
         $image->save($image_location . 'thumb'. $game->id . '.jpg');
-        $game->image =  'uploads/images/' . $game->id . '/' . $game->id . '.jpg';
+        $game->image = $game->id . '.jpg';
         $game->save();
         Session::flash('notice', 'Success add game');
         $games = Games::all();
@@ -110,16 +131,18 @@ class GamesController extends Controller
     public function update(GamesRequest $request, $id)
     {
         $games = Games::find($id);
-        $new_file_name = $request->title . ".jpg";
-        $uploadDestinationPath = "upload-image/";
-        $deletefile = File::delete('upload-image/'.$request->image);
-        if ($request->file('image')->isValid()) {
-            $request->file('image')->move($uploadDestinationPath, $new_file_name);
-        }else{
-            echo "<script>alert('Failed');</script>";
-            die();
-            return back();
-        }
+
+        $image_locations = public_path().'/uploads/images/' . $game->id;
+        $image_location = public_path().'/uploads/images/' . $game->id . '/';
+        File::deleteDirectory($image_locations);
+        $file = $request->file('image');
+        $image = Image::make($file);
+        $direction  = File::makeDirectory($image_location,0777, true, true);
+        // $final = $direction . "/";
+        $image->save($image_location . $game->id . '.jpg');
+        $image->resize(200,100);
+        $image->save($image_location . 'thumb'. $game->id . '.jpg');
+        $game->image =  'uploads/images/' . $game->id . '/' . $game->id . '.jpg';
         // $request->file('image')->move($uploadDestinationPath, $new_file_name);
         $games->update($request->all());
         Session::flash('notice', 'Success update game');
@@ -136,7 +159,8 @@ class GamesController extends Controller
     {
     $games = Games::all();
     $game_id = Games::find($id);
-    File::delete('upload-image/'.$game_id->image);
+    $image_locations = public_path().'/uploads/images/' . $game->id;
+    File::deleteDirectory($image_locations);
         if ($game_id->delete()) {
           Session::flash('notice', 'Game success delete');
           return Redirect('games')->with('games', $games);

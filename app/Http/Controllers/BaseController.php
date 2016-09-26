@@ -13,7 +13,7 @@ use App\Models\Games;
 class BaseController extends Controller
 {   
     public function list_games(){
-    	$games = Games::paginate(5);
+    	$games = Games::paginate(4);
     	return view('list')->with('games', $games);
     }
 }

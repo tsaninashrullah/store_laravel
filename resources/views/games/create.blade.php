@@ -58,4 +58,5 @@
 </div>
 </div>
 {{ Form::close() }}
+@include('shared.slider')
 @stop

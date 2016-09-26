@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RolesRequest;
 use Illuminate\Http\Request;
-use App\Models\Comments;
-use App\Models\Games;
 use App\Models\Users;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use App\Http\Requests;
-
-class CommentsController extends Controller
+// use Cartalyst\Sentinel\Laravel\Facades\Activation;
+use Activation;
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,33 +18,46 @@ class CommentsController extends Controller
      */
     public function index()
     {
-        //
+        $users = Users::all();
+        return view('users.index')
+            ->with('users', $users);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function active($id)
     {
-        //
+        $users = Users::all();
+        $user = Sentinel::findById($id);
+        $activation = Activation::create($user);
+        return redirect('users')
+            ->with('users', $users);
     }
 
+    public function deactive($id)
+    {
+        $users = Users::all();
+        $user = Sentinel::findById($id);
+        $activation = Activation::remove($user);
+        return redirect('users')
+            ->with('users', $users);
+    }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function role(RolesRequest $request)
     {
-        $add = new Comments;
-        $add->comments = $request->comments;
-        $add->users_id = Sentinel::getUser()->id;
-        $add->games_id = $id;
-        $add->save();
-        return redirect('comments_user/' . $id);
+        $role = Sentinel::getRoleRepository()->createModel()->create([
+            'name' => $request->name,
+            'slug' => $request->slug,
+        ]);
+        return view('home');
+    }
+
+    public function create()
+    {
+        return view('users.create');
     }
 
     /**
@@ -55,7 +68,8 @@ class CommentsController extends Controller
      */
     public function show($id)
     {
-        //
+        $users = Users::find($id);
+        return view('users.users')->with('users', $users);
     }
 
     /**
@@ -90,12 +104,5 @@ class CommentsController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function comments_user($id){
-        $comments_user = Games::find($id)->comments;
-        $users = Users::find(Sentinel::getUser()->id);
-        $games = Games::find($id);
-        return view('comments_user')->with('games', $games)->with('comments_user', $comments_user)->with('users', $users);
     }
 }

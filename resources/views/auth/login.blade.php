@@ -16,7 +16,7 @@
 		<div class="col-lg-8 col-lg-offset-2">
 			<div class="form-group label-floating">
 			{{ Form::Label('email','Email', array('class' => 'control-label')) }}
-			{{ Form::email('email', $value = null, $attributes = array('required', 'class' => 'form-control')) }}
+			{{ Form::text('username', $value = null, $attributes = array('required', 'class' => 'form-control')) }}
 			{{ $errors->first('email') }}
 			</div>
 		</div>
@@ -39,4 +39,5 @@
 </div>
 </div>
 {{ Form::close() }}
+@include('shared.slider')
 @stop

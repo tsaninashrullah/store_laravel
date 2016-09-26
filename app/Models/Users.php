@@ -6,6 +6,8 @@ use Cartalyst\Sentinel\Users\UserInterface;
 
 use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
 use App\Models\Games;
+use App\Roles;
+use App\Models\Comments;
 
 // use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -16,7 +18,8 @@ class Users extends SentinelUser
      *
      * @var arra
      */
-    
+    protected $loginNames = ['username'];
+        
     protected $fillable = [
         'email',
         'password',
@@ -37,4 +40,11 @@ class Users extends SentinelUser
     public function games() {
       return $this->belongsToMany('App\Models\Games', 'comments');
     }
+    public function activation() {
+       return $this->hasOne('App\Activations', 'user_id');
+    }
+    public function comments() {
+        return $this->hasMany('App\Models\Comments', 'users_id');
+    }
 }
+?>

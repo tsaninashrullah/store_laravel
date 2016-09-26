@@ -66,7 +66,6 @@ class GameController extends Controller
     public function update(GamesRequest $request, $id)
     {
         $games = Games::FindOrFail($id);
-        // $request->file('image')->move($uploadDestinationPath, $new_file_name);
         $games->update($request->all());
         return Games::FindOrFail($id);
     }

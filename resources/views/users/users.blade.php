@@ -13,7 +13,6 @@
             @else
             Mantap euy
             @endif
-            {{ link_to('users/create', 'mode_edit', array('class' => 'material-icons')) }}
         </div>
     </div>
 </div>
