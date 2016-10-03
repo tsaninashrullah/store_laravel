@@ -10,6 +10,8 @@ class Comments extends Model
 {
     protected $fillable = [
     	'comments',
+    	'games_id',
+    	'users_id'
     ];
     public function games() {
 	    return $this->belongsTo('App\Models\Games', 'games_id');

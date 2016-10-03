@@ -10,8 +10,41 @@
 <br>
     @if(Sentinel::inRole('admin'))
     <div class="row">
-        <div class="col-lg-12 pull-right">
-            {{ link_to('export_comments/' . $games->id, $title = 'Export', $attributes = array('class' => 'btn btn-primary'), $secure = null) }}
+        <div class="col-lg-10">
+        &nbsp;
+        </div>
+        <div class="col-lg-2 pull-right">
+            <div class="btn-group">
+              <a href="javascript:void(0)" class="btn btn-info">Excel</a>
+              <a href="bootstrap-elements.html" data-target="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal">Import</a></li>
+                <li class="divider"></li>
+                <li><a href="/export_comments/{{$games->id}}">Export</a></li>
+              </ul>
+            </div>
+        <!-- MODAL -->
+        <div id="myModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Select Your excel to Import your data</h4>
+              </div>
+              {{ Form::open(array('url' => 'import_comments/' . $games->id, 'files' => true)) }}
+              <div class="modal-body">
+                <p>{{ Form::file('comments') }}</p>
+              </div>
+
+              <div class="modal-footer">
+              {{ Form::submit('Import', array('class' => 'btn btn-primary')) }}
+              </div>
+              {{ Form::close() }}
+            </div>
+
+          </div>
         </div>
     </div>
     @endif
@@ -34,39 +67,39 @@
         </div>
         <div class="col-md-7">
         {{ Form::open(['action' => ['CommentsController@store', $games->id]]) }}
-        	<div class="form-group label-floating">
-			{{ Form::Label('comments','Comments', array('class' => 'control-label')) }}
-			{{ Form::textarea('comments', $value = null, $attributes = array('required', 'class' => 'form-control')) }}
-			{{ $errors->first('comments') }}
-			</div>
-			{{ Form::submit('Send', array('class' => 'btn btn-primary')) }}
+            <div class="form-group label-floating">
+            {{ Form::Label('comments','Comments', array('class' => 'control-label')) }}
+            {{ Form::textarea('comments', $value = null, $attributes = array('required', 'class' => 'form-control')) }}
+            {{ $errors->first('comments') }}
+            </div>
+            {{ Form::submit('Send', array('class' => 'btn btn-primary')) }}
             <hr>
             <h2><strong>Comment About {{$games->title}} </strong></h2>
             <hr>
+        {{ Form::close() }}
             @if(count($games->comments) == 0)
                 <h3><strong><center>Not Comment Yet</center></strong></h3>
             @else
-            <?php
-            $count = count($games->users);
-            for($i=0; $i < $count; $i++){
-            echo "<div class='row'>
+            @if(Sentinel::inRole('admin'))
+            <div class="pull-right">
+                {{ Form::open(array('route' => array('comments.destroy', $games->id), 'method' => 'delete')) }}
+                {{ Form::submit('Delete All Comments',array('class' => 'btn btn-warning', "onclick" => "return confirm('Are you sure?')")) }}
+                {{  Form::close() }}
+            </div>
+            @endif
+            @foreach($comments_user as $game)
+            <div class='row'>
                 <div class='col-lg-12'>
-                    <p>From : <strong>";
-                    echo $games->users[$i]->email;
-                    echo "</strong></p>
+                    <p>From : <strong><?php $i=0; ?> {{ $games->users[$i]->email }} <?php $i++; ?></strong></p>
                 </div>
                 <div class='col-lg-12'>
-                    <p>";
-                    echo $games->comments[$i]->comments;
-                    echo "</p>
+                    <p>{{$game->comments}}</p>
                 </div>
             </div>
-            <hr>";
-            }
-            ?>
+            <hr>
+            @endforeach
             @endif
         </div>
-        {{ Form::close() }}
     </div>
     <hr>
 </div>

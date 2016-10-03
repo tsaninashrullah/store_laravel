@@ -89,7 +89,13 @@ class CommentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $select = Comments::where('games_id', '=', $id)->delete();
+        $comments_user = Games::find($id)->comments;
+        $users = Users::find(Sentinel::getUser()->id);
+        $games = Games::find($id);
+        return redirect('comments_user/' . $id)
+            ->with('games', $games)
+            ->with('comments_user', $comments_user);
     }
 
     public function comments_user($id){

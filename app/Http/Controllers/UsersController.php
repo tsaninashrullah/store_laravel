@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Users;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use App\Http\Requests;
-// use Cartalyst\Sentinel\Laravel\Facades\Activation;
-use Activation;
+use Activation, Validator, Redirect, Mail, Session, Hash;
 class UsersController extends Controller
 {
     /**
@@ -39,6 +38,19 @@ class UsersController extends Controller
         $activation = Activation::remove($user);
         return redirect('users')
             ->with('users', $users);
+    }
+
+    public function restore()
+    {
+        $users = Users::onlyTrashed()->get();
+        return view('users._list_deleted')->with('users', $users);
+    }
+
+    public function process_restore($id)
+    {
+        $user = Users::onlyTrashed()->get();
+        $users = Users::onlyTrashed($id)->restore();
+        return redirect('users/restore')->with('users', $user);
     }
     /**
      * Store a newly created resource in storage.
@@ -78,6 +90,20 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $users = Users::find($id);
+        $user = $users->delete();
+        return view('users.index');
+    }
+
     public function edit($id)
     {
         //
@@ -90,19 +116,71 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function f_restore()
     {
-        //
+        return view('users.f_restore');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+
+
+    public function change_password($forgot_token)
     {
-        //
+        $find_user = Users::where('forgot_token', $forgot_token)->first();
+        if(empty($find_user)) {
+            Session::flash('error', 'Token not valid, :)');
+            return Redirect::to('/');
+        } else {
+            return view('users.change_password')
+            ->with( 'forgot_token', $find_user->forgot_token)->with('email',$find_user->email);
+        }
+    }
+
+    public function change_password_store(Request $request, $forgot_token)
+    {
+        $valid = array(
+        'password' => ('required|confirmed')
+        );
+        $data = $request->all();
+        $validate = Validator::make($data, $valid);
+        $find_data = Users::where('forgot_token', $forgot_token)->first();
+        if($validate->fails()) {
+          return redirect('change-password/'.$find_data->forgot_token)
+            ->withErrors($validate)->withInput();
+        } else {
+          $find_data->password = Hash::make($request->password);
+          $find_data->forgot_token = null;
+          $find_data->save();
+          Session::flash('notice ', 'Hai ' . $find_data->username . ' Password has change lets login');
+          return Redirect::to('login');
+        }
+    }
+    public function reset_password_store(Request $request)
+    {
+        $valid = array(
+          'email' => 'required|email'
+        );
+        $data = $request->all();
+        $validate = Validator::make($data, $valid);
+        $find_data = Users::where('email', $request->email)->first();
+        if($validate->fails()) {
+          return Redirect::to('f_restore')
+          ->withErrors($validate)
+          ->withInput();
+        } elseif(empty($find_data)) {
+          Session::flash('error', 'Email not found' . $request->email);
+          return Redirect::to('f_restore')
+            ->withErrors($validate)
+            ->withInput();
+        } else {
+          $find_data->forgot_token = str_random(40);
+          $find_data->save();
+        Mail::send('users.email', $find_data->toArray(), function($message) use($find_data) {
+                $message->from('Games@store.com','TRSNW Games');
+                $message->to($find_data->email)->subject('Reset Password');
+                });
+        Session::flash('notice', 'Check your email, the reset password instruction has sent to '.$find_data->email);
+          return Redirect::to('/');
+        }
     }
 }

@@ -35,6 +35,7 @@
 	<div class="col-lg-4 col-lg-offset-2">
 		{{ Form::submit('Save', array('class' => 'btn btn-primary')) }}
 	</div>
+	<a href="f_restore">Forgot Password?</a>
   </div>
 </div>
 </div>

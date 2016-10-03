@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Cartalyst\Sentinel\Users\UserInterface;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
 use App\Models\Games;
 use App\Roles;
@@ -18,6 +18,7 @@ class Users extends SentinelUser
      *
      * @var arra
      */
+    use SoftDeletes;
     protected $loginNames = ['username'];
         
     protected $fillable = [
@@ -37,6 +38,8 @@ class Users extends SentinelUser
     protected $hidden = [
         'password', 'remember_token',
     ];
+    protected $dates = ['deleted_at'];
+    
     public function games() {
       return $this->belongsToMany('App\Models\Games', 'comments');
     }

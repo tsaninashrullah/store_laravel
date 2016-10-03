@@ -8,8 +8,8 @@
 </div>
 
 <div class="container-fluid">
+	<div class="row">
 	<div class="col lg-12">
-		<div class="table-responsive">
 		@if(count($games) == 0)
 			<br>
 			<br>
@@ -92,7 +92,10 @@
 	    </div>
 		<br>
 		<br>
+		</div>
 
+		<div class="row col-lg-12">
+		<div class="table-responsive">
 		<div id="games-list">
 		<table class="table table-hover">
 			<tr>
@@ -129,11 +132,12 @@
 				</tr>
 			@endforeach
 		</table>
-		</div>
 		<div class="row col-lg-12">
 			<center>{{ $games->links() }}</center>
 		</div>
+		</div>
 		@endif
+	    </div>
 	    </div>
 		<!-- <img src="uploads/images/1/1.jpg" width="40%"> -->
 	</div>
@@ -162,14 +166,14 @@ function get_page(page) {
 
   $.ajax({
 
-    url : '/games?=' + page,
+    url : '/games?page=' + page,
 
     type : 'GET',
 
     dataType : 'json',
 
     success : function(data) {
-
+    	console.log(data);
       $('#games-list').html(data['view']);
 
     },

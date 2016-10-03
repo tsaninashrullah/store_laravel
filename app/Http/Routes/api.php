@@ -10,8 +10,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-$api = app('Dingo\Api\Routing\Router');
+// $api = app('Dingo\Api\Routing\Router');
 
-$api->version('v1', function ($api) {
-    $api->resource('games', 'App\Http\Controllers\GameController');
-});
+// $api->version('v1', function ($api) {
+//     $api->resource('games', 'App\Http\Controllers\GameController');
+// });

@@ -12,12 +12,19 @@
 */
 Route::group(['middleware' => 'admin'], function () {
 	Route::get('users', 'UsersController@index')->name('users');
-	Route::post('users/{id}', 'UsersController@destroy')->name('users.destroy');
+	Route::get('users/restore', 'UsersController@restore')->name('users.restore');
+	Route::delete('users/{id}', 'UsersController@destroy')->name('users.destroy');
 	Route::post('users/{id}/active', 'UsersController@active')->name('users.active');
 	Route::post('users/{id}/deactive', 'UsersController@deactive')->name('users.deactive');
-	Route::post('user/{id}', 'UsersController@show')->name('users.show');
+	Route::get('user/{id}', 'UsersController@show')->name('users.show');
+	Route::post('users/restore/{id}', 'UsersController@process_restore')->name('users.restores');
+	Route::delete('comments/{id}', 'CommentsController@destroy')->name('comments.destroy');
 });
+	Route::get('f_restore', 'UsersController@f_restore')->name('f_restore');
+	Route::get('change-password/{token}', 'UsersController@change_password')->name('change');
+	Route::post('change-password-store/{token}', 'UsersController@change_password_store')->name('change-store');
 	Route::get('users/create', 'UsersController@create')->name('users.role');
+	Route::post('reset', 'UsersController@reset_password_store')->name('users.store-reset');
 	Route::post('users', 'UsersController@role')->name('users.roles');
 
 Route::group(['middleware' => 'auth'], function () {

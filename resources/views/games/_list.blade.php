@@ -33,3 +33,6 @@
 		</tr>
 	@endforeach
 </table>
+<div class="row col-lg-12">
+			<center>{{ $games->links() }}</center>
+		</div>

@@ -19,6 +19,9 @@ use App\Models\Users;
 			<h4 align="center">Sorry data not yet available, You can {{ link_to('users/create', 'Create', array('class' => 'btn btn-raised btn-primary')) }} the data</h4>
 		@else
 		<br>
+		<div class="col-lg-12 pull-left">
+			{{ link_to('users/restore', 'Restore', array('class' => 'btn btn-info')) }}
+		</div>
 		<br>
 		<table class="table table-hover">
 			<tr>

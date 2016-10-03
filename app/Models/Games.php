@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Games extends Model
 {
     protected $fillable = [
-    	'title','author','email','description'
+    	'title','author','email','description','image'
     ];
     public function users() {
       return $this->belongsToMany('App\Models\Users', 'comments');

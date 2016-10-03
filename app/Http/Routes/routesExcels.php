@@ -12,6 +12,7 @@
 */
 Route::group(['middleware' => 'admin'], function(){
 	Route::post('import_games', 'ExcelsController@import_games');
+	Route::post('import_comments/{id}', 'ExcelsController@import_comments');
 	Route::get('export_games', 'ExcelsController@export_games');
 	Route::get('export_comments/{id}', 'ExcelsController@export_comments')->name('e_comments/{id}');
 });

@@ -33,6 +33,15 @@
         <div id="wrapper">
             <h1 align="center">Welcome to <div class="hey">TRSNW</div> Games Store</h1>
             <br>
+            <div id="getting-started">sadalsdaksd;ad</div>
+			<script type="text/javascript">
+			  $("#getting-started")
+			  .countdown("2017/01/01", function(event) {
+			    $(this).text(
+			      event.strftime('%D days %H:%M:%S')
+			    );
+			  });
+			</script>
             <div id="content">
 			@foreach ($games as $game)
 			<div class="col-lg-6 col-sm-3">
