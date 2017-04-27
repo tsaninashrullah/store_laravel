@@ -52,9 +52,8 @@ class CekController extends Controller
 		    'password' => $request->password,
 		];
 		// var_dump();
-		Sentinel::check();
-		if ($user = Sentinel::authenticate($credentials))
-		{
+        if ($user = Sentinel::authenticate($credentials))
+        {
 		    // Authentication successful and the user is assigned to the `$user` variable.
 	        Session::flash('notice', 'Success login');
 			return redirect('home')->with('user', $credentials);

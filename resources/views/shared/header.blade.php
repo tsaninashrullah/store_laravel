@@ -17,6 +17,12 @@ $user = Sentinel::findUserById($value);
     <div class="navbar-collapse collapse navbar-warning-collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>{{ link_to('/', 'Home') }}</li>
+        <li>
+        @foreach(getGames() as $key => $value)
+        {{$value->first_name}}
+        @endforeach
+        </li>
+        <li>{{user_info()->last_name}} Bwah Bwah</li>
         @if(Sentinel::inRole('admin'))
         <li>{{ link_to('games', 'Game') }}</li>
         <li>{{ link_to('users', 'User') }}</li>

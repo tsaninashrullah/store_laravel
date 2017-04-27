@@ -132,20 +132,20 @@ class GamesController extends Controller
     {
         $games = Games::find($id);
 
-        $image_locations = public_path().'/uploads/images/' . $game->id;
-        $image_location = public_path().'/uploads/images/' . $game->id . '/';
+        $image_locations = public_path().'/uploads/images/' . $games->id;
+        $image_location = public_path().'/uploads/images/' . $games->id . '/';
         File::deleteDirectory($image_locations);
         $file = $request->file('image');
         $image = Image::make($file);
         $direction  = File::makeDirectory($image_location,0777, true, true);
         // $final = $direction . "/";
-        $image->save($image_location . $game->id . '.jpg');
+        $image->save($image_location . $games->id . '.jpg');
         $image->resize(200,100);
-        $image->save($image_location . 'thumb'. $game->id . '.jpg');
-        $game->image =  'uploads/images/' . $game->id . '/' . $game->id . '.jpg';
+        $image->save($image_location . 'thumb'. $games->id . '.jpg');
+        $games->image =  'uploads/images/' . $games->id . '/' . $games->id . '.jpg';
         // $request->file('image')->move($uploadDestinationPath, $new_file_name);
         $games->update($request->all());
-        Session::flash('notice', 'Success update game');
+        Session::flash('notice', 'Success update games');
         return Redirect('games');       
     }
 

@@ -10,6 +10,10 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+
+Route::get('/redirect', 'SocialAuthController@redirect');
+Route::get('/callback', 'SocialAuthController@callback');
+
 Route::group(['middleware' => 'admin'], function () {
 	Route::get('users', 'UsersController@index')->name('users');
 	Route::get('users/restore', 'UsersController@restore')->name('users.restore');
@@ -34,7 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 Route::group(['middleware' => 'back'], function () {
 	Route::get('login', 'CekController@login')->name('login');
-	Route::post('auth', 'CekController@auth');
+	Route::post('auth', ['as'=>'auth','uses'=>'CekController@auth']);
 	Route::get('signup', 'CekController@signup')->name('signup.register');
 	Route::post('register', 'CekController@register')->name('register');
 });

@@ -1,9 +1,8 @@
 <?php
 
-use App\Models\Games;
 use Illuminate\Database\Seeder;
 
-class GamesSeeder extends Seeder
+class addAdmin extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +11,6 @@ class GamesSeeder extends Seeder
      */
     public function run()
     {
-        factory(Games::class, 50)->create();
+        //
     }
 }
